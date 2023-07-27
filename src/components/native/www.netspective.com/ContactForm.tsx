@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from 'react';
 const ContactForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorNameMessage, setErrorNameMessage] = useState("");
+  const [errorEmailMessage, setErrorEmailMessage] = useState("");
   const handleSubmitForm = (event: React.FormEvent) => {
     event.preventDefault()
     console.log("testt");
@@ -19,6 +21,27 @@ const ContactForm = () => {
       event.target as unknown as HTMLFormElement
     ).querySelector("#contactMessage") as HTMLInputElement;
     console.log(contactName.value,contactEmail.value,contactSubject.value,contactMessage.value);
+    if (contactName.value == "") {
+      isValidate = true;
+      setErrorNameMessage("Please enter name");
+    } else {
+      setErrorNameMessage("");
+    }
+
+    if (contactEmail.value == "") {
+      isValidate = true;
+      setErrorEmailMessage("Please enter email");
+    } else if (!isValidEmail(contactEmail.value)) {
+      isValidate = true;
+      setErrorEmailMessage("Please enter valid email");
+    } else {
+      setErrorEmailMessage("");
+    }
+
+    if (isValidate) {
+      event.preventDefault();
+      return false;
+    }
     const clearForm = (): void => {
       if (contactName.value != null)
       contactName.value = "";
@@ -128,23 +151,31 @@ const ContactForm = () => {
     
 
   }
+  const isValidEmail = (email: string): boolean => {
+    const regex =
+      // eslint-disable-next-line no-useless-escape
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return !(email.length === 0 || regex.test(email)=== false);
+  };
   return (
     <form id="quickcontact" onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubmitForm(event)}>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
-              <div className="mr-3">
+              <div className="mr-3 ml-3">
                 <div className="mb-3">
                   <input type="text" name="name" id="contactName" placeholder="*Name" autoComplete="given-name" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <p className="text-red-500">{errorNameMessage}</p>
                 </div>
                 <div className="mb-3">
                   <input id="contactEmail" name="email" type="email" autoComplete="email" placeholder="*Email"  className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                  <p className="text-red-500">{errorEmailMessage}</p>
                 </div>
                 <div className="mb-3">
                   <input id="contactSubject" name="subject" type="text" placeholder="Subject" autoComplete="email" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
               </div>
-              <div className="ml-3">
+              <div className="mr-3 ml-3">
                 <div className="mb-3">
-                  <textarea id="contactMessage" name="message"  rows={4} placeholder="Subject" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                  <textarea id="contactMessage" name="message"  rows={4} placeholder=" Message" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                 </div>
                 <button type="submit" id="contactSubmit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Send message</button>
                 {isSubmitted && (

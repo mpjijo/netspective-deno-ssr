@@ -103,7 +103,7 @@ const RegisterForm = () => {
       searchParams.append('organization', formData.organization);
       searchParams.append('phonenumber', formData.phonenumber);
   
-      const responseMail = fetch("https://formspree.io/f/xgejwagb", {
+      const responseMail = fetch("https://formspree.io/Gunjan.siroya@netspective.com", {
         method: "POST",
         body: searchParams.toString(),
         headers: {
@@ -127,7 +127,7 @@ const RegisterForm = () => {
     return /\S+@\S+\.\S+/.test(email);
   };
   return (
-    <><h3 className="text-2xl font-bold mb-10 mt-4 text-center"><span className="bg-orange-600 text-white py-2 px-8"  id="registerhead"></span></h3><form id="register" onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubmit(event)} onReset={handleReset}>
+    <><div className="text-center"><h3 className="text-2xl font-bold mb-10 mt-4 text-center inline-flex"><span className="bg-orange-600 text-white py-2 px-8"  id="registerhead"></span></h3></div><form id="register" onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleSubmit(event)} onReset={handleReset}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
         <div className="mr-3">
           <div className="mb-3">
@@ -147,7 +147,7 @@ const RegisterForm = () => {
             <input id="remarks" name="remarks" type="text" placeholder="Remarks" autoComplete="remarks" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={formData.remarks} onChange={handleChange} />
           </div>
         </div>
-        <div className="ml-3">
+        <div>
           <div className="mb-3">
             <input type="email" name="email" id="email" placeholder="*Email" autoComplete="given-name" className="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={formData.email} onChange={handleChange} />
             {errors.email && <p className="text-red-500">{errors.email}</p>}
